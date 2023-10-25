@@ -61,6 +61,52 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    #[Route('/categories/edit/{id}', name: 'edit_category')]
+    public function edit($id, Request $request): Response
+    {
+        $category = $this->categoryRepository->find($id);
+        $form = $this->createForm(CategoryFormType::class, $category);
+
+        $form->handleRequest($request);
+        $imagePath = $form->get('imagePath')->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $color = $form->get('color')->getData();
+            $category->setColor($color);
+            if ($imagePath) {
+                if ($category->getImagePath() != null) {
+                    if (file_exists($this->getParameter('kernel.project_dir') . $category->getImagePath())) {
+                        $this->getParameter('kernel.project_dir') . $category->getImagePath();
+                    }
+                    $newFileName = uniqid() . '.' . $imagePath->guessExtension();
+
+                    try {
+                        $imagePath->move(
+                            $this->getParameter('kernel.project_dir') . '/public/uploads',
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+                        return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
+                    }
+
+                    $category->setImagePath('/uploads/' . $newFileName);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('manage_app');
+                }
+            } else {
+                $category->setName($form->get('name')->getData());
+
+                $this->em->flush();
+                return $this->redirectToRoute('manage_app');
+            }
+        }
+
+        return $this->render('/categories/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
     #[Route('categories/delete/{id}', methods: ['GET', 'DELETE'], name: 'delete_category')]
     public function delete($id): Response
     {

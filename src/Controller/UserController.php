@@ -11,7 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
@@ -34,26 +36,37 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/edit/{id}', name: 'edit_user')]
-    public function editUser($id, Request $request): Response
+    public function editUser($id, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserInterface $currentUser): Response
     {
         $user = $this->userRepository->find($id);
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $oldPasswordProvided = $user->getPassword();
+            $newPasswordProvided = $request->request->get('newPassword');
+            $hashedOldPasswordProvided = $userPasswordHasher->hashPassword(
+                $user,
+                $oldPasswordProvided
+            );
+            dd($currentUser, $user, $oldPasswordProvided, $hashedOldPasswordProvided, $newPasswordProvided);
+            exit;
 
-            $user->setEmail($form->get('email')->getData());
-            $oldPassword = $form->get('oldPassword')->getData();
-            if ($user->getPassword() == $oldPassword) {
-                $user->setPassword($form->get('newPassword')->getData());
+            if ($currentUser->getPassword() == $hashedOldPasswordProvided) {
+                $user->setEmail($form->get('email')->getData());
+                $user->setPassword($newPasswordProvided);
+                $this->em->flush();
+                return $this->redirectToRoute('show_user');
             } else {
+                return $this->render('/user/edit.html.twig', [
+                    'errorMessage' => "Passwords do not match!",
+                    'form' => $form->createView()
+                ]);
             }
-
-            $this->em->flush();
-            return $this->redirectToRoute('show_user');
         }
 
         return $this->render('/user/edit.html.twig', [
+            'errorMessage' => "",
             'form' => $form->createView()
         ]);
     }

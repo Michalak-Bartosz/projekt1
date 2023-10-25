@@ -23,7 +23,7 @@ class UserFixtures extends Fixture
         $admin->setPassword(
             $this->userPasswordHasherInterface->hashPassword(
                 $admin,
-                "admin123!"
+                "hasloadmin123!"
             )
         );
         $admin->setRoles(["ROLE_ADMIN", "ROLE_USER"]);
@@ -34,7 +34,7 @@ class UserFixtures extends Fixture
         $test_1->setPassword(
             $this->userPasswordHasherInterface->hashPassword(
                 $test_1,
-                "test1!"
+                "SuperSilneHasloTestowe9925!"
             )
         );
         $test_1->setRoles(["ROLE_USER"]);

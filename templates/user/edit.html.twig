@@ -1,18 +1,35 @@
 {% extends "./base.html.twig" %}
 
 {% block body %}
-	<div class="w-4/5 m-auto pt-24">
-		<h1 class="text-6xl text-center font-bold p-6">
-			Edit User
+	{% if app.user %}
+		<div class="w-4/5 m-auto pt-24">
+			<h1 class="text-6xl text-center font-bold p-6">
+				Edit User
+			</h1>
+
+			{% if errorMessage %}
+				<div class="bg-red-700 text-white text-3xl text-center font-bold p-6 m-auto w-fit h-fit rounded-full">
+					{{ errorMessage }}
+				</div>
+			{% endif %}
+
+
+			{{ form_start(form) }}
+			{{ form_row(form.email) }}
+			{{ form_row(form.password) }}
+			<input
+			name="newPassword" type="password" class="bg-transparent block border-b-2 w-full h-20 text-2xl outline-none" placeholder="Enter New Password..." required="fasle" label="false">
+
+			<button type="submit" class="uppercase my-10 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-2xl">
+				Submit Post
+			</button>
+
+			{{ form_end(form) }}
+		</div>
+	{% else %}
+		<h1 class="text-4xl font-bold text-gray-800 p-5 w-max m-auto">
+			Uupss! You are not login to application 😁
 		</h1>
+	{% endif %}
 
-		{{ form_start(form) }}
-
-		{{ form_widget(form) }}
-		<button type="submit" class="uppercase my-10 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-2xl">
-			Submit Post
-		</button>
-
-		{{ form_end(form) }}
-	</div>
 {% endblock %}

@@ -12,15 +12,14 @@
 				<a href="/users/edit/{{ app.user.id }}" class="bg-green-500 font-bold py-2 px-4 rounded transition-all hover:bg-green-300 mx-auto m-auto">
 					Edit Account
 				</a>
-
-				{% if not "ROLE_ADMIN" in app.user.roles  %}
-					<a href="/users/delete/{{ app.user.id }}" class="bg-red-500 font-bold py-2 px-4 rounded transition-all hover:bg-red-300 mx-auto my-5">
-						Delete Account
-					</a>
-				{% else %}
+				{% if "ROLE_ADMIN" in app.user.roles  %}
 					<h2 class="text-1xl text-white bg-red-500 mr-4 p-4 rounded w-fit h-fit">
 						As a admin you can't delete your account!
 					</h2>
+				{% else %}
+					<a href="/users/delete/{{ app.user.id }}" class="bg-red-500 font-bold py-2 px-4 rounded transition-all hover:bg-red-300 mr-auto my-5">
+						Delete Account
+					</a>
 				{% endif %}
 				<h1 class="text-4xl font-bold text-center m-auto">
 					Emial:
@@ -49,6 +48,4 @@
 			Uupss! You are not login to application 😁
 		</h1>
 	{% endif %}
-
-
 {% endblock %}
