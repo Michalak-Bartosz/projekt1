@@ -1,0 +1,76 @@
+{% extends "./base.html.twig" %}
+
+{% block body %}
+	<div class="mb-max">
+		{% if app.user %}
+			<div class="w-4/5 m-auto text-center">
+				<div class="pt-12 border-b border-gray-200">
+					<h1 class="text-6xl pt-12 pb-8">
+						Trips Review
+					</h1>
+				</div>
+			</div>
+
+
+			<div class="mx-auto w-4/5 my-8">
+				<a href="/events/create" class="uppercase border border-gray-500 text-lg py-4 px-6 rounded bg-gray-800 text-white">
+					Create New Trip
+				</a>
+			</div>
+			{% if events is not empty %}
+				<section id="conference-timeline">
+					<div class="timeline-start">Start</div>
+					<div class="conference-center-line"></div>
+					<div class="conference-timeline-content">
+						{% for event in events %}
+							<div class="timeline-article">
+								<div class={% if loop.index is even %} "content-right-container" {% else %} "content-left-container" {% endif %}>
+									<div class={% if loop.index is even %} "content-right" {% else %} "content-left" {% endif %}>
+										<div class="pt-8 pb-4 min-h-max text-center">
+
+
+											<div class={% if loop.index is even %} "category-avatar-right" {% else %} "category-avatar-left" {% endif %} "category-avatar min-w-10 min-h-10" style="background-color:{{ event.category.color }}">
+												<img src="{{ event.category.imagePath }}" alt="Avatar" class="avatar aspect-square rounded-full shadow-xl max-w-16 max-h-16 m-auto p-2"/>
+											</div>
+
+											<h1 class={% if loop.index is even %} "category-name-right" {% else %} "category-name-left" {% endif %} style="color: {{ event.category.color}}; text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;">
+												{{ event.category.name }}
+											</h1>
+
+											<img src="{{ event.imagePath }}" alt="" class="shadow-xl rounded-md max-w-64 max-h-64 flex mx-auto"/>
+
+											<h2 class="text-gray-700 font-bold text-3xl py-2">
+												{{ event.name }}
+											</h2>
+
+											<h3 class="text-gray-500 font-bold text-2xl py-2">
+												{{ event.date|date('d-m-Y') }}
+											</h3>
+
+											<h1 class="text-base text-gray-700 leading-8 font-light truncate block pb-4">
+												{{ event.description }}
+											</h1>
+
+											<a href="/events/{{ event.id }}" class="uppercase border border-gray-500 text-gray-600 text-lg p-2 my-4 rounded transition transition-all hover:bg-gray-800 hover:text-white">
+												Keep Reading</a>
+										</div>
+									</div>
+									<span class="timeline-author">{{ app.user.email }}</span>
+								</div>
+								<div class="meta-date"></div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="timeline-end">End</div>
+				</section>
+			{% else %}
+				<h1 class="m-auto text-center p-4 text-6xl">Upss!</h1>
+				<h2 class="m-auto text-center p-4 text-5xl">No Trips! Create a new one 😁</h2>
+			{% endif %}
+		{% else %}
+			<h1 class="m-auto text-center p-4 text-6xl">
+				Please login to show the Trips review!
+			</h1>
+		{% endif %}
+	</div>
+{% endblock %}

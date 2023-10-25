@@ -1,0 +1,204 @@
+{% extends "./base.html.twig" %}
+
+{% block body %}
+
+	{% if app.user and "ROLE_ADMIN" in app.user.roles  %}
+		<div class="mb-max">
+			<div class="w-4/5 m-auto text-center">
+				<div class="pt-24 border-b border-gray-200">
+					<h1 class="text-6xl py-12">
+						Category Overview
+					</h1>
+				</div>
+			</div>
+
+			{% if categories %}
+				<div class="mx-auto w-4/5 my-8">
+					<a href="/categories/create" class="uppercase border border-gray-500 text-lg py-4 px-6 rounded bg-gray-800 text-white">
+						Create New Category
+					</a>
+				</div>
+				<table class="m-auto bg-slate-300 mt-5">
+					<thead>
+						<th class="border rounded-lg border-black">Id</th>
+						<th class="border rounded-lg border-black">Name</th>
+						<th class="border rounded-lg border-black">Color Hash</th>
+						<th class="border rounded-lg border-black">Avatar</th>
+						<th class="border rounded-lg border-black"></th>
+					</thead>
+					<tbody class="border rounded-lg border-black">
+						{% for category in categories %}
+							<tr class="border rounded-lg border-black">
+								<td class="border rounded-lg border-black p-4 text-center">
+									{{ category.id }}
+								</td>
+								<td class="border rounded-lg border-black p-4 text-center">
+									<h3 class="text-gray-500 font-bold text-1xl py-2m -auto">
+										{{ category.name }}
+									</h3>
+								</td>
+								<td class="border rounded-lg border-black min-w-full p-4">
+									<h3 class="text-gray-500 font-bold text-1xl py-2 m-auto">
+										{{ category.color }}
+									</h3>
+								</td>
+								<td class="border rounded-lg border-black p-4">
+									<div class="category-avatar min-w-10 min-h-10">
+										<img src="{{ category.imagePath }}" alt="Avatar" class="avatar aspect-square rounded-full shadow-xl max-w-16 max-h-16 m-auto p-2" style="background-color: {{ category.color }}"/>
+									</div>
+								</td>
+								<td class="border rounded-lg border-black p-4">
+									<a href="/categories/edit/{{ category.id }}" class="bg-green-500 font-bold py-2 px-4 rounded transition-all hover:bg-green-300 mx-2 my-5">
+										Edit Category
+									</a>
+									<a href="/categories/delete/{{ category.id }}" class="bg-red-500 font-bold py-2 px-4 rounded transition-all hover:bg-red-300 mx-2 my-5">
+										Delete Category
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<h2 class="m-auto text-center p-4 text-5xl">Upss! No Categories to display! 😁</h2>
+			{% endif %}
+
+			<div class="w-4/5 m-auto text-center">
+				<div class="border-b border-gray-200">
+					<h1 class="text-6xl py-12">
+						Trips Overview
+					</h1>
+				</div>
+			</div>
+
+			{% if events %}
+				<table class="m-auto bg-slate-300 mt-5">
+					<thead>
+						<th class="border rounded-lg border-black">Id</th>
+						<th class="border rounded-lg border-black">Author</th>
+						<th class="border rounded-lg border-black">Trip Name</th>
+						<th class="border rounded-lg border-black">Date</th>
+						<th class="border rounded-lg border-black">Image</th>
+						<th class="border rounded-lg border-black">Category</th>
+						<th class="border rounded-lg border-black">Description</th>
+						<th class="border rounded-lg border-black"></th>
+					</thead>
+					<tbody class="border rounded-lg border-black">
+						{% for event in events %}
+							<tr class="border rounded-lg border-black">
+								<td class="border rounded-lg border-black p-4 text-center">
+									{{ event.id }}
+								</td>
+								<td class="border rounded-lg border-black p-4 text-center">
+									{{ event.user.email }}
+								</td>
+								<td class="border rounded-lg border-black p-4 text-center">
+									<h3 class="text-gray-500 font-bold text-1xl py-2m -auto">
+										{{ event.name }}
+									</h3>
+								</td>
+								<td class="border rounded-lg border-black min-w-full p-4">
+									<h3 class="text-gray-500 font-bold text-1xl py-2 m-auto">
+										{{ event.date|date('d-m-Y') }}
+									</h3>
+								</td>
+								<td class="border rounded-lg border-black p-4">
+									<img src="{{ event.imagePath }}" alt="" class="shadow-xl rounded-md max-w-80 max-h-80 flex m-auto"/>
+								</td>
+								<td class="border rounded-lg border-black p-4">
+									<div class="text-center m-auto">
+										<h3 class="text-gray-500 font-bold text-1xl py-2m -auto mb-5">
+											{{ event.category.name }}
+										</h3>
+										<div class="category-avatar min-w-10 min-h-10">
+											<img src="{{ event.category.imagePath }}" alt="Avatar" class="avatar aspect-square rounded-full shadow-xl max-w-16 max-h-16 m-auto p-2" style="background-color: {{ event.category.color }}"/>
+										</div>
+									</div>
+								</td>
+								<td class="border rounded-lg border-black p-4">
+									<div class="inline-block text-center">
+										<h1 class="text-base text-gray-700 leading-8 font-light truncate block pb-4 w-80">
+											{{ event.description }}
+										</h1>
+
+										<a href="/events/{{ event.id }}" class="uppercase border border-gray-500 text-gray-600 text-lg p-2 my-4 rounded transition transition-all hover:bg-gray-800 hover:text-white mx-auto">
+											Keep Reading</a>
+									</div>
+								</td>
+								<td class="border rounded-lg border-black p-4">
+									<a href="/events/edit/{{ event.id }}" class="bg-green-500 font-bold py-2 px-4 rounded transition-all hover:bg-green-300">
+										Edit Trip
+									</a>
+
+									<a href="/events/delete/{{ event.id }}" class="bg-red-500 font-bold py-2 px-4 ml-6 rounded transition-all hover:bg-red-300">
+										Delete Trip
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<h2 class="m-auto text-center p-4 text-5xl">Upss! No Trips to display! 😁</h2>
+			{% endif %}
+
+		</div>
+		<div class="w-4/5 m-auto text-center">
+			<div class="border-b border-gray-200">
+				<h1 class="text-6xl py-12">
+					Users Overview
+				</h1>
+			</div>
+		</div>
+
+		{% if users %}
+			<table class="m-auto bg-slate-300 mt-5">
+				<thead>
+					<th class="border rounded-lg border-black">Id</th>
+					<th class="border rounded-lg border-black">Email</th>
+					<th class="border rounded-lg border-black">Hashed Password</th>
+					<th class="border rounded-lg border-black">Description</th>
+					<th class="border rounded-lg border-black"></th>
+				</thead>
+				<tbody class="border rounded-lg border-black">
+					{% for user in users %}
+						<tr class="border rounded-lg border-black">
+							<td class="border rounded-lg border-black p-4 text-center">
+								{{ user.id }}
+							</td>
+							<td class="border rounded-lg border-black p-4 text-center">
+								<h3 class="text-gray-500 font-bold text-1xl py-2m -auto">
+									{{ user.email }}
+								</h3>
+							</td>
+							<td class="border rounded-lg border-black min-w-full p-4">
+								<h3 class="text-gray-500 font-bold text-1xl py-2 m-auto">
+									{{ user.password }}
+								</h3>
+							</td>
+							<td class="border rounded-lg border-black p-4">
+								<a href="/users/edit/{{ user.id }}" class="bg-green-500 font-bold py-2 px-4 rounded transition-all hover:bg-green-300 m-4">
+									Edit Account
+								</a>
+								{% if "ROLE_ADMIN" in user.roles  %}
+									<h2 class="text-1xl text-white bg-red-500 m-4 p-2 rounded w-fit h-fit">
+										As a admin you can't delete your account!
+									</h2>
+								{% else %}
+									<a href="/users/delete/{{ user.id }}" class="bg-red-500 font-bold py-2 px-4 rounded transition-all hover:bg-red-300 m-4">
+										Delete Account
+									</a>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<h2 class="m-auto text-center p-4 text-5xl">Upss! No Users to display! 😁</h2>
+		{% endif %}
+	</div>
+</div>{% else %}
+<h1 class="text-4xl font-bold text-gray-800 p-5 w-max m-auto">
+	Uupss! You are not admin 😁
+</h1>{% endif %}{% endblock %}
