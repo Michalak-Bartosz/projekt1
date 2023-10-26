@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+#navigation-bar {
+  display: none;
+}
+
+#trip-buttons {
+  display: none;
+}
+
 #conference-timeline {
   position: relative;
   max-width: 920px;
@@ -213,10 +221,4 @@
   top: 0;
   left: 10%;
   margin-top: 20px;
-}
-
-@media print {
-  .header {
-    display: none;
-  }
 }

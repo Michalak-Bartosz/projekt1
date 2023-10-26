@@ -7,7 +7,8 @@
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-		<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+		<link rel="stylesheet" media="screen" href="{{ asset('styles/app.css') }}">
+		<link rel="stylesheet" media="print" href="{{ asset('styles/print.css') }}">
 
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.3.5/dist/alpine.min.js" defer></script>
@@ -15,7 +16,7 @@
 	<body class="bg-gray-100 flex flex-col h-screen justify-between font-sans">
 		{% block header %}
 			<header>
-				<nav class="flex items-center justify-between flex-wrap p-6 fixed w-full z-10 top-0" x-data="{ isOpen: false }" @keydown.escape="isOpen = false" :class="{ 'shadow-lg bg-gray-600' : isOpen , 'bg-gray-600' : !isOpen}">
+				<nav id="navigation-bar" class="flex items-center justify-between flex-wrap p-6 fixed w-full z-10 top-0" x-data="{ isOpen: false }" @keydown.escape="isOpen = false" :class="{ 'shadow-lg bg-gray-600' : isOpen , 'bg-gray-600' : !isOpen}">
 
 					<div class="flex items-center flex-shrink-0 text-white mr-6">
 						<a class="text-white no-underline hover:text-white hover:no-underline" href="/events">

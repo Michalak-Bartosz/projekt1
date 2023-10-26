@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
@@ -36,30 +35,39 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/edit/{id}', name: 'edit_user')]
-    public function editUser($id, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserInterface $currentUser): Response
+    public function editUser($id, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = $this->userRepository->find($id);
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $oldPasswordProvided = $user->getPassword();
-            $newPasswordProvided = $request->request->get('newPassword');
-            $hashedOldPasswordProvided = $userPasswordHasher->hashPassword(
-                $user,
-                $oldPasswordProvided
-            );
-            dd($currentUser, $user, $oldPasswordProvided, $hashedOldPasswordProvided, $newPasswordProvided);
-            exit;
+            $old_pwd = $form->get('password')->getData();
+            $new_pwd = $request->get('new_password');
+            $new_pwd_confirm = $request->get('new_password_confirm');
 
-            if ($currentUser->getPassword() == $hashedOldPasswordProvided) {
-                $user->setEmail($form->get('email')->getData());
-                $user->setPassword($newPasswordProvided);
-                $this->em->flush();
-                return $this->redirectToRoute('show_user');
+            $currentUser = $this->getUser();
+
+            // dd($currentUser, $user, $old_pwd, $new_pwd, $new_pwd_confirm);
+            // exit;
+
+            if ($userPasswordHasher->isPasswordValid($user, $old_pwd)) {
+                if ($new_pwd == $new_pwd_confirm) {
+                    $user->setEmail($form->get('email')->getData());
+                    $user->setPassword($userPasswordHasher->hashPassword($user, $new_pwd));
+                    $this->em->flush();
+                    return $this->redirectToRoute('show_user', [
+                        'id' => $id
+                    ]);
+                } else {
+                    return $this->render('/user/edit.html.twig', [
+                        'errorMessage' => "New password is not match!",
+                        'form' => $form->createView()
+                    ]);
+                }
             } else {
                 return $this->render('/user/edit.html.twig', [
-                    'errorMessage' => "Passwords do not match!",
+                    'errorMessage' => "Old password is not correct!",
                     'form' => $form->createView()
                 ]);
             }

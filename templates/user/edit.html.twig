@@ -17,10 +17,10 @@
 			{{ form_start(form) }}
 			{{ form_row(form.email) }}
 			{{ form_row(form.password) }}
-			<input
-			name="newPassword" type="password" class="bg-transparent block border-b-2 w-full h-20 text-2xl outline-none" placeholder="Enter New Password..." required="fasle" label="false">
+			<input name="new_password" type="password" class="bg-transparent block mt-10 mx-auto border-b-2 w-1/5 h-20 text-2xl outline-none" placeholder="Enter New Password..." required="fasle" label="false" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+			<input name="new_password_confirm" type="password" class="bg-transparent block mt-10 mx-auto border-b-2 w-1/5 h-20 text-2xl outline-none" placeholder="New Password Confirm..." required="fasle" label="false">
 
-			<button type="submit" class="uppercase my-10 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-2xl">
+			<button type="submit" class="flex uppercase bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-2xl m-auto my-10">
 				Submit Post
 			</button>
 
