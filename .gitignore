@@ -18,4 +18,5 @@ yarn-error.log
 
 ###> symfony/asset-mapper ###
 /public/assets/
+/public/build/
 ###< symfony/asset-mapper ###
