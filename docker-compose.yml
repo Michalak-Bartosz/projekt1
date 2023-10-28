@@ -28,7 +28,7 @@ services:
     image: sf-image/php:latest
     restart: on-failure
     environment:
-      APP_ENV: dev
+      APP_ENV: prod
     ports:
       - 8080:8080
     depends_on:
