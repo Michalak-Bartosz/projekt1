@@ -35,15 +35,6 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/events/admin', methods: ['GET'], name: 'admin_panel')]
-    public function admin(): Response
-    {
-        $events = $this->eventRepository->findBy([], ['date' => 'ASC']);
-        return $this->render('events/admin.html.twig', [
-            "events" => $events
-        ]);
-    }
-
     #[Route('/events/create', name: 'create_event')]
     public function create(Request $request): Response
     {
