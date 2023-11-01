@@ -31,14 +31,15 @@
 									<div class={% if loop.index is even %} "content-right" {% else %} "content-left" {% endif %}>
 										<div class="pt-8 pb-4 min-h-max text-center">
 
+											{% if event.category %}
+												<div class={% if loop.index is even %} "category-avatar-right" {% else %} "category-avatar-left" {% endif %} "category-avatar min-w-10 min-h-10" style="background-color:{{ event.category.color }}">
+													<img src="{{ event.category.imagePath }}" alt="Avatar" class="avatar aspect-square rounded-full shadow-xl max-w-16 max-h-16 m-auto p-2"/>
+												</div>
 
-											<div class={% if loop.index is even %} "category-avatar-right" {% else %} "category-avatar-left" {% endif %} "category-avatar min-w-10 min-h-10" style="background-color:{{ event.category.color }}">
-												<img src="{{ event.category.imagePath }}" alt="Avatar" class="avatar aspect-square rounded-full shadow-xl max-w-16 max-h-16 m-auto p-2"/>
-											</div>
-
-											<h1 class={% if loop.index is even %} "category-name-right" {% else %} "category-name-left" {% endif %} style="color: {{ event.category.color}}; text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;">
-												{{ event.category.name }}
-											</h1>
+												<h1 class={% if loop.index is even %} "category-name-right" {% else %} "category-name-left" {% endif %} style="color: {{ event.category.color}}; text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;">
+													{{ event.category.name }}
+												</h1>
+											{% endif %}
 
 											<img src="{{ event.imagePath }}" alt="" class="shadow-xl rounded-md max-w-64 max-h-64 flex mx-auto"/>
 
