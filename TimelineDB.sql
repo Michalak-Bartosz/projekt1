@@ -1,4 +1,3 @@
-CREATE DATABASE `timelines`;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -36,8 +35,8 @@ INSERT INTO `category` (`id`,`name`,`image_path`,`color`) VALUES (2,'Plane Trip'
 INSERT INTO `category` (`id`,`name`,`image_path`,`color`) VALUES (3,'Car Trip','https://cdn.pixabay.com/photo/2020/05/16/09/56/car-5176821_1280.jpg','#FFFC36');
 INSERT INTO `category` (`id`,`name`,`image_path`,`color`) VALUES (4,'Walking Trip','https://cdn.pixabay.com/photo/2014/01/22/19/38/boot-250012_1280.jpg','#9AA0A6');
 
-INSERT INTO `user` (`id`,`email`,`roles`,`password`) VALUES (52,'admin@gmail.com','[\"ROLE_ADMIN\", \"ROLE_USER\"]','$2y$13$LdWiE2fZEWRm55kR/QINDOaOBKUXmJd720oI01n27wPGX/X.rDUia');
-INSERT INTO `user` (`id`,`email`,`roles`,`password`) VALUES (53,'test1@gmail.com','[\"ROLE_USER\"]','$2y$13$OgtZpAGmNcESv38YYWk6BeCb8BPrxyUIA2uyN1BzYBWvkhg2ORk0.');
+INSERT INTO `user` (`id`,`email`,`roles`,`password`) VALUES (1,'admin@gmail.com','[\"ROLE_ADMIN\", \"ROLE_USER\"]','$2y$13$LdWiE2fZEWRm55kR/QINDOaOBKUXmJd720oI01n27wPGX/X.rDUia');
+INSERT INTO `user` (`id`,`email`,`roles`,`password`) VALUES (2,'test1@gmail.com','[\"ROLE_USER\"]','$2y$13$OgtZpAGmNcESv38YYWk6BeCb8BPrxyUIA2uyN1BzYBWvkhg2ORk0.');
 
 INSERT INTO `event` (`id`,`category_id`,`name`,`date`,`description`,`image_path`,`user_id`) VALUES (1,2,'Majorka','2020-05-01 19:30:35',"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",'https://cdn.pixabay.com/photo/2017/02/26/14/31/beach-2100369_1280.jpg',2);
 INSERT INTO `event` (`id`,`category_id`,`name`,`date`,`description`,`image_path`,`user_id`) VALUES (2,3,'Rome','2021-07-21 19:30:35',"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",'https://cdn.pixabay.com/photo/2019/10/06/08/57/tiber-river-4529605_1280.jpg',2);
